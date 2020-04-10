@@ -1,4 +1,5 @@
 import { Response, Request } from 'express';
+import { paginate } from 'paginate-mongoose-data';
 import { responsesHelper } from '../utils/responses';
 import { IUsers } from '../models/user.interface'
 import { Users } from '../models/user'
@@ -18,7 +19,15 @@ class UserController {
       logger.error(`error occured unable to create a user ${JSON.stringify(error)}`);
       return res.status(500).send(responsesHelper.error(500, `${error}`));
     }
-  }
+  };
+  async list(req: Request, res: Response) {
+      try {
+        await paginate(Users, res);
+      } catch (error) {
+       logger.error(`error occured unable to list users ${JSON.stringify(error)}`);
+      return res.status(500).send(responsesHelper.error(500, `${error}`));
+      }
+  };
 }
 
 export const userController = new UserController();
