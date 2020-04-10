@@ -22,7 +22,9 @@ class UserController {
   };
   async list(req: Request, res: Response) {
       try {
-        await paginate(Users, res);
+       const data =  await paginate(Users);
+       logger.info(`${data.message} ${JSON.stringify(data)}`);
+       return res.status(200).send(responsesHelper.output(200, data.message, data.data, data.meta));
       } catch (error) {
        logger.error(`error occured unable to list users ${JSON.stringify(error)}`);
       return res.status(500).send(responsesHelper.error(500, `${error}`));
