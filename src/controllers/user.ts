@@ -8,7 +8,15 @@ const logging = new Logger();
 const logger = logging.log('user-service');
 
 class UserController {
-  async add(req: Request, res: Response) {
+  /**
+   * create
+   * @desc users should be able to create a new account
+   * Route: POST: '/api/v1/users'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object} object
+   */
+  async create(req: Request, res: Response) {
     try {
         const data:IUsers = req.body;
         const user = await Users.create(data);
@@ -20,6 +28,15 @@ class UserController {
       return res.status(500).send(responsesHelper.error(500, `${error}`));
     }
   };
+
+  /**
+   * list
+   * @desc authenticated users should be able to get list of users
+   * Route: GET: '/api/v1/users'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object} object
+   */
   async list(req: Request, res: Response) {
       try {
        const data =  await paginate(Users);
