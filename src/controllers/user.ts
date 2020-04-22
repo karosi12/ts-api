@@ -65,11 +65,11 @@ class UserController {
    */
   async view(req: IRequest, res: Response) {
     try {
-      const {id} = req.params;
+      const id = req.decoded?.id;
       const user = await Users.findById(id);
       if(!user) return res.status(400).send(responsesHelper.error(400, 'unable to user'));
       return res.status(200).send(responsesHelper
-        .success(200, user, 'user was successfully created'));
+        .success(200, user, 'user was successfully fetched'));
     } catch (error) {
      logger.error(`error occured unable to list users ${JSON.stringify(error)}`);
      return res.status(500).send(responsesHelper.error(500, `${error}`));
