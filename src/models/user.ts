@@ -1,4 +1,3 @@
-import * as Mongoose from 'mongoose';
 import { Document, Model, model, Schema } from 'mongoose';
 import { IUsers } from './user.interface';
 

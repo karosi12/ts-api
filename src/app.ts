@@ -18,14 +18,6 @@ app.use(
     extended: false
   })
 );
-// interface IRequest extends Request {
-//   decoded: {
-//     id: string
-//   }
-// }
-// app.use( (req: IRequest, res: Response, next: NextFunction) => {
-//   next();
-// });
 app.use(cors());
 app.use(API_VERSION, usersRoute);
 app.get('/', (req: Request, res: Response) => {
