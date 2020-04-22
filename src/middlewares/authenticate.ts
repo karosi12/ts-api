@@ -1,4 +1,4 @@
-import JWT from 'jsonwebtoken';
+import * as JWT from 'jsonwebtoken';
 import { responsesHelper } from '../utils/responses';
 import { Logger } from '../logger/logger'
 import dotenv from 'dotenv';

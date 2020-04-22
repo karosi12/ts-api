@@ -16,7 +16,7 @@
     "@types/cors": "^2.8.6",
     "@types/mongoose": "^5.7.1",
     "@types/morgan": "^1.7.37",
-    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
