@@ -1,5 +1,3 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 export class Config {
     public MongoDBCredentials(): any {
         const MONGO_HOST = process.env.MONGO_HOST;
