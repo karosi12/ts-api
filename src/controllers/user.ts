@@ -67,7 +67,7 @@ class UserController {
     try {
       const id = req.decoded?.id;
       const user = await Users.findById(id);
-      if(!user) return res.status(400).send(responsesHelper.error(400, 'unable to user'));
+      if(!user) return res.status(400).send(responsesHelper.error(400, 'unable to get user'));
       return res.status(200).send(responsesHelper
         .success(200, user, 'user was successfully fetched'));
     } catch (error) {
