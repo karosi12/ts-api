@@ -1,5 +1,3 @@
-import * as Mongoose from 'mongoose';
-import bcrypt from 'bcrypt-nodejs';
 import { Document, Model, model, Schema } from 'mongoose';
 import { IUsers } from './user.interface';
 
@@ -52,15 +50,6 @@ const userSchema = new Schema(
     timestamps: true
   }
 );
-
-userSchema.methods.generateHash = function (password: string) {
-    this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-    return password;
-};
-  
-userSchema.methods.validatePassword = function (password: string) {
-    return bcrypt.compareSync(password, this.password);
-};
   
 userSchema.methods.toJSON = function () {
     const obj = this.toObject();

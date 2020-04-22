@@ -1,3 +1,4 @@
+import { Response, Request } from 'express';
 export interface IUsers {
     fullName: string;
     email: string;
@@ -11,4 +12,8 @@ export interface IUsers {
     isDeleted: boolean;
     createdAt: Date;
     updatedAt: Date;
+}
+
+export interface IRequest extends Request {
+    decoded?: { }
 }

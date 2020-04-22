@@ -2,7 +2,7 @@ class Responses {
     constructor() {
       return this;
     }
-    public success(errorCode: number, data: object, message: string) {
+    public success(errorCode: number, data: object | null, message: string) {
       return {
         error: false,
         errorCode,
