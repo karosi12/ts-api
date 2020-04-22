@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import { DB } from './db/db'
 import { Logger } from './logger/logger'
-import express, {Application, Request, Response, NextFunction} from 'express';
+import express, {Application, Request, Response } from 'express';
 import { usersRoute } from './routes/user';
 const API_VERSION = '/api/v1';
 const app: Application = express();

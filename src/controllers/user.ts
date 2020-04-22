@@ -1,14 +1,17 @@
 import { Response, Request } from 'express';
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcryptjs';
+import * as JWT from 'jsonwebtoken';
 import { IRequest } from '../models/user.interface';
 import { paginate } from 'paginate-mongoose-data';
 import { responsesHelper } from '../utils/responses';
 import { IUsers } from '../models/user.interface'
 import { Users } from '../models/user'
 import { Logger } from '../logger/logger'
+import { Config } from '../config/config'
 const logging = new Logger();
 const logger = logging.log('user-service');
 class UserController {
+
   /**
    * create
    * @desc users should be able to create a new account
@@ -19,11 +22,14 @@ class UserController {
    */
   async create(req: Request, res: Response) {
     try {
-        const data:IUsers = req.body;
-        const user = await Users.create(data);
-        logger.info(`user was successfully created ${JSON.stringify(user)}`);
-        return res.status(201).send(responsesHelper
-        .success(201, user, 'user was successfully created'));
+      const salt: String =  bcrypt.genSaltSync(10);
+      const hash: String = bcrypt.hashSync(req.body.password, salt);
+      req.body.password = hash
+      const data:IUsers = req.body;
+      const user = await Users.create(data);
+      logger.info(`user was successfully created ${JSON.stringify(user)}`);
+      return res.status(201).send(responsesHelper
+      .success(201, user, 'user was successfully created'));
     } catch (error) {
       logger.error(`error occured unable to create a user ${JSON.stringify(error)}`);
       return res.status(500).send(responsesHelper.error(500, `${error}`));
@@ -68,14 +74,26 @@ class UserController {
      logger.error(`error occured unable to list users ${JSON.stringify(error)}`);
      return res.status(500).send(responsesHelper.error(500, `${error}`));
     }
-};
-async login(req: Request, res: Response) {
-  try {
-    
-  } catch (error) {
-    logger.error(`error to login user ${JSON.stringify(error)}`);
-    return res.status(500).send(responsesHelper.error(500, `${error}`));
+  };
+  async login(req: Request, res: Response) {
+    try {
+      const config = new Config().JwtCredentials();
+      const JWT_SECRET = config.JWT_SECRET;
+      const TOKEN_EXPIRES_IN = config.TOKEN_EXPIRES_IN;
+      const email = req.body.email;
+      if(!req.body.email) return res.status(400).send(responsesHelper.error(400,'Email is required'));
+      if(!req.body.password) return res.status(400).send(responsesHelper.error(400,'Password is required'));
+      const user = await Users.findOne({email})
+      if(!user) return res.status(400).send(responsesHelper.error(400,'Wrong email'));
+      const match = bcrypt.compareSync(req.body.password, user.password)
+      if (!match) return res.status(400).send(responsesHelper.error(400, 'Wrong password'));
+      const jwtPayload = {id: user._id, email: user.email};
+      const token = await JWT.sign(jwtPayload, JWT_SECRET, { expiresIn: TOKEN_EXPIRES_IN });
+      return res.status(200).send(responsesHelper.success(200, {user, token},'User signed in successfully'));
+    } catch (error) {
+      logger.error(`error to login user ${JSON.stringify(error)}`);
+      return res.status(500).send(responsesHelper.error(500, `${error}`));
+    }
   }
-}
 }
 export const userController = new UserController();
