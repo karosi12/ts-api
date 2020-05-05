@@ -1,5 +1,5 @@
-import { Document, Model, model, Schema } from 'mongoose';
-import { IUsers } from './user.interface';
+import { Document, Model, model, Schema } from "mongoose";
+import { IUsers } from "./user.interface";
 
 export interface IUsermodel extends IUsers, Document {}
 
@@ -23,23 +23,28 @@ const userSchema = new Schema(
     },
     mobile: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     image: {
-      type: String
+      type: String,
+      trim: true
     },
     state: {
-      type: String
+      type: String,
+      trim: true
     },
     active: {
       type: Boolean,
       default: true
     },
     city: {
-      type: String
+      type: String,
+      trim: true
     },
     role: {
-      type: String
+      type: String,
+      trim: true
     },
     isDeleted: {
       type: Boolean,
@@ -50,10 +55,10 @@ const userSchema = new Schema(
     timestamps: true
   }
 );
-  
-userSchema.methods.toJSON = function () {
-    const obj = this.toObject();
-    delete obj.password;
-    return obj;
+
+userSchema.methods.toJSON = function() {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
 };
-export const Users: Model<IUsermodel> = model<IUsermodel>('Users', userSchema);
+export const Users: Model<IUsermodel> = model<IUsermodel>("Users", userSchema);
