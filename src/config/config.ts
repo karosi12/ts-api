@@ -8,4 +8,9 @@ export class Config {
 
         return { MONGO_HOST, MONGO_PORT, MONGO_DB_NAME, MONGO_USERNAME, MONGO_PASSWORD };
     }
+    public JwtCredentials(): { JWT_SECRET: string | undefined, TOKEN_EXPIRES_IN: string | undefined} {
+        const JWT_SECRET: string | undefined = process.env.JWT_SECRET;
+        const TOKEN_EXPIRES_IN: string | undefined = process.env.TOKEN_EXPIRES_IN
+        return {JWT_SECRET, TOKEN_EXPIRES_IN};
+    }
 }

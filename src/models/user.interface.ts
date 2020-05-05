@@ -15,5 +15,7 @@ export interface IUsers {
 }
 
 export interface IRequest extends Request {
-    decoded?: { }
+    decoded?: { 
+        id?: string
+    }
 }

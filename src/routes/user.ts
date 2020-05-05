@@ -5,7 +5,8 @@ import { authenticate } from '../middlewares/authenticate'
 const router = express.Router();
 
 router.post('/users', userController.create);
-router.get('/users', userController.list);
-router.get('/users', authenticate, userController.view);
+router.post('/login', userController.login);
+router.get('/users',authenticate, userController.list);
+router.get('/users/view', authenticate, userController.view);
 
 export const usersRoute = router;
