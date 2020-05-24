@@ -4,7 +4,7 @@ This is a user management for building a RESTful API.
 
 ## API Documentation
 
-- api link in progress..
+- https://documenter.getpostman.com/view/10646382/Szt8fAc3
 
 ## Installation
 
